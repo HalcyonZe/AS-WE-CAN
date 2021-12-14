@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(ray,out hit))
         {
-            Debug.Log(hit.point);
+            //Debug.Log(hit.point);
         }
 
         //float angel = Random.Range(-5f, 5f);
