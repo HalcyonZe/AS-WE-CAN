@@ -74,12 +74,15 @@ public class Gun : MonoBehaviour
         if(Physics.Raycast(ray,out hit))
         {
             //Debug.Log(hit.point);
+            Vector3 dir = (hit.point - transform.position).normalized;
+            dir = new Vector3(dir.x, 0, dir.z);
+            bullet.GetComponent<Bullet>().SetSpeed(dir);
         }
 
-        //float angel = Random.Range(-5f, 5f);
+        /*float angel = Random.Range(-5f, 5f);
         Vector3 dir = (hit.point - transform.position).normalized;
         dir = new Vector3(dir.x, 0, dir.z);
-        bullet.GetComponent<Bullet>().SetSpeed(dir);
+        bullet.GetComponent<Bullet>().SetSpeed(dir);*/
 
         // Instantiate(shellPrefab, shellPos.position, shellPos.rotation);
         /*GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);

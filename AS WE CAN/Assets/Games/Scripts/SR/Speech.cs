@@ -13,13 +13,14 @@ public class Speech : MonoBehaviour
     private bool canSpeech = false;
 
     public float volume;
+    private bool Getvolume = false;
     AudioClip micRecord;
     string device;
 
     // Start is called before the first frame update
     void Start()
     {
-        keywords = new string[] {"we can" };
+        keywords = new string[] {"谢" };
         if(m_phraseRecognizer == null)
         {
             m_phraseRecognizer = new KeywordRecognizer(keywords, m_confidenceLevel);
@@ -44,9 +45,11 @@ public class Speech : MonoBehaviour
             {
                 StopRecognizer();
                 canSpeech = false;
+                Getvolume = false;
                 Debug.Log("时间到!");
             }
-            volume = GetVolume();
+            //volume = GetVolume();
+            KeepGetVolume();
         }
         
     }
@@ -78,8 +81,17 @@ public class Speech : MonoBehaviour
     {
         print("识别成功!");
         StopRecognizer();
-        canSpeech = false;
+        //canSpeech = false;
+        Getvolume = true;
 
+    }
+
+    private void KeepGetVolume()
+    {
+        if (Getvolume)
+        {
+            volume = GetVolume();
+        }
     }
 
     private float GetVolume()

@@ -121,7 +121,7 @@ using UnityEngine;
             {
                 hungerClock =hungerInterval; 
                 food--;
-                Debug.Log("Food:"+food);
+                //Debug.Log("Food:"+food);
                 if(food<=0)
                 {
                     food = 0;
@@ -140,7 +140,7 @@ using UnityEngine;
                 thirstyClock = thirstyInterval;
                 water--;
            
-                Debug.Log("Water:"+water);
+                //Debug.Log("Water:"+water);
                 if(water<=0)
                 {
                     water = 0;
