@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,119 +8,147 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
-public class SpeechRecognize : MonoBehaviour {
-
+public class SpeechRe : MonoBehaviour
+{
     public string APP_ID = "14131279";
     public string API_KEY = "E4kRdXVk4GmFROT6IubGGXpy";
     public string SECRET_KEY = "duBtLVsVHxQ81r8E59ScSzRR8BRGhG9c";
 
     /// <summary>
-    /// è·å–tockençš„è¯·æ±‚åœ°å€
-    /// è¿”å›jsonæ•°æ®,æ¯æ¬¡è·å–tokenæ•°æ®éƒ½ä¸ä¸€æ ·
+    /// »ñÈ¡tockenµÄÇëÇóµØÖ·
+    /// ·µ»ØjsonÊı¾İ,Ã¿´Î»ñÈ¡tokenÊı¾İ¶¼²»Ò»Ñù
     /// </summary>
     public string GetTokenUrl = "https://aip.baidubce.com/oauth/2.0/token";
     /// <summary>
-    /// è·å–åˆ°çš„Token
+    /// »ñÈ¡µ½µÄToken
     /// </summary>
     public string Access_Token = "";
 
     /// <summary>
-    /// å½•éŸ³æŒ‰é’®
+    /// Â¼Òô°´Å¥
     /// </summary>
-    [Header("å½•éŸ³æŒ‰é’®")]
+    [Header("Â¼Òô°´Å¥")]
     public Button RecordButton;
 
-    [Header("ç»“æœText")]
+    [Header("½á¹ûText")]
     public Text ResultTest;
 
-    [Header("æ˜¯å¦åœ¨å½•éŸ³çš„çŠ¶æ€")]
+    [Header("ÊÇ·ñÔÚÂ¼ÒôµÄ×´Ì¬")]
     public bool isRecording = false;
-    [Header("éº¦å…‹é£è®¾å¤‡çš„åå­—")]
+    [Header("Âó¿Ë·çÉè±¸µÄÃû×Ö")]
     public string MicrophoneName = "";
     /// <summary>
-    /// å½•åˆ¶çš„éŸ³é¢‘ç‰‡æ®µ
+    /// Â¼ÖÆµÄÒôÆµÆ¬¶Î
     /// </summary>
     public AudioClip RecordAudioClip;
 
     /// <summary>
-    /// æ’­æ”¾éŸ³é¢‘çš„éŸ³æº
+    /// ²¥·ÅÒôÆµµÄÒôÔ´
     /// </summary>
     public AudioSource audioSource;
 
     /// <summary>
-    /// è¯­éŸ³è¯†åˆ«åœ°å€
+    /// ÓïÒôÊ¶±ğµØÖ·
     /// </summary>
     public string SpeechRecognition_Address = "https://vop.baidu.com/server_api";
     /// <summary>
-    /// è¯­éŸ³åˆæˆåœ°å€
+    /// ÓïÒôºÏ³ÉµØÖ·
     /// </summary>
     public string SpeechSynthesis_Address = "http://tsn.baidu.com/text2audio";
-    [Header("è¯†åˆ«åˆ°çš„æ–‡å­—")]
+    [Header("Ê¶±ğµ½µÄÎÄ×Ö")]
     public string RecognizeContent = "";
-    [Header("å½•éŸ³çš„æ—¶é•¿")]
+    [Header("Â¼ÒôµÄÊ±³¤")]
     public int recordTime = 5;
+
+    private float interval = 1.5f;
+    private float timer = 0;
+
 
     private void Start()
     {
         GetToken(GetTokenUrl);
 
-        RecordButton.onClick.AddListener(OnRecordButtonClick);
+        //RecordButton.onClick.AddListener(OnRecordButtonClick);
 
-        //è·å–ç”µè„‘ä¸Šç¬¬ä¸€ä¸ªå½•éŸ³è®¾å¤‡çš„åç§°
+        //»ñÈ¡µçÄÔÉÏµÚÒ»¸öÂ¼ÒôÉè±¸µÄÃû³Æ
         if (Microphone.devices.Length > 0)
         {
             MicrophoneName = Microphone.devices[0];
         }
         else
         {
-            Debug.LogError("å½“å‰è®¾å¤‡ç¼ºå°‘éº¦å…‹é£è®¾å¤‡è¿›è¡Œå½•åˆ¶");
+            Debug.LogError("µ±Ç°Éè±¸È±ÉÙÂó¿Ë·çÉè±¸½øĞĞÂ¼ÖÆ");
         }
 
         audioSource = GetComponent<AudioSource>();
     }
 
-    /*private void Update()
+    private void Update()
     {
+        OnRecord();
+    }
+
+    private void OnRecord()
+    {
+        if (timer != 0)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                Debug.Log("½áÊø");
+                timer = 0;
+                Microphone.End(MicrophoneName);
+                StartCoroutine(Recognition(RecordAudioClip, recordTime));
+            }
+
+        }
+
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            OnRecordButtonClick();
-        }
-    }*/
+            if (timer == 0)
+            {
+                Debug.Log("¿ªÊ¼");
+                timer = interval;
 
+                RecordAudioClip = Microphone.Start(MicrophoneName, false, recordTime, 16000);
+
+            }
+        }
+    }
 
     /// <summary>
-    /// å½•éŸ³æŒ‰é’®ç‚¹å‡»äº‹ä»¶
+    /// Â¼Òô°´Å¥µã»÷ÊÂ¼ş
     /// </summary>
     private void OnRecordButtonClick()
     {
         if (isRecording == false)
         {
-            //å¼€å§‹å½•åˆ¶
+            //¿ªÊ¼Â¼ÖÆ
             isRecording = true;
-            //å¼€å§‹å½•åˆ¶,å½•åˆ¶é•¿åº¦5ç§’,é¢‘ç‡16000
+            //¿ªÊ¼Â¼ÖÆ,Â¼ÖÆ³¤¶È5Ãë,ÆµÂÊ16000
             RecordAudioClip = Microphone.Start(MicrophoneName, false, recordTime, 16000);
 
-            RecordButton.GetComponent<Image>().color = Color.red;
+            //RecordButton.GetComponent<Image>().color = Color.red;
         }
         else
         {
-            //ç»“æŸå½•åˆ¶
+            //½áÊøÂ¼ÖÆ
             isRecording = false;
 
             Microphone.End(MicrophoneName);
-            //ä¿®æ”¹æŒ‰é’®çš„é¢œè‰²
-            RecordButton.GetComponent<Image>().color = Color.white;
-            //æ’­æ”¾å½•åˆ¶çš„è¯­éŸ³
+            //ĞŞ¸Ä°´Å¥µÄÑÕÉ«
+            //RecordButton.GetComponent<Image>().color = Color.white;
+            //²¥·ÅÂ¼ÖÆµÄÓïÒô
             //audioSource.PlayOneShot(RecordAudioClip);
-            //å¼€å§‹è¯­éŸ³è¯†åˆ«
-            StartCoroutine(Recognition(RecordAudioClip,recordTime));
+            //¿ªÊ¼ÓïÒôÊ¶±ğ
+            StartCoroutine(Recognition(RecordAudioClip, recordTime));
 
-            Debug.Log(GetVolume(RecordAudioClip));
+            //Debug.Log(GetVolume(RecordAudioClip));
         }
     }
 
     /// <summary>
-    /// è·å–token
+    /// »ñÈ¡token
     /// </summary>
     /// <param name="url"></param>
     public void GetToken(string url)
@@ -130,14 +158,14 @@ public class SpeechRecognize : MonoBehaviour {
         form.AddField("client_id", API_KEY);
         form.AddField("client_secret", SECRET_KEY);
 
-        StartCoroutine(HttpPostRequest(url,form));
+        StartCoroutine(HttpPostRequest(url, form));
     }
 
     /// <summary>
-    /// post httpè¯·æ±‚
+    /// post httpÇëÇó
     /// </summary>
-    /// <param name="url">è¯·æ±‚çš„åœ°å€</param>
-    /// <param name="form">è¯·æ±‚åœ°å€å¸¦çš„å‚æ•°</param>
+    /// <param name="url">ÇëÇóµÄµØÖ·</param>
+    /// <param name="form">ÇëÇóµØÖ·´øµÄ²ÎÊı</param>
     /// <returns></returns>
     IEnumerator HttpPostRequest(string url, WWWForm form)
     {
@@ -147,46 +175,46 @@ public class SpeechRecognize : MonoBehaviour {
 
         if (unityWebRequest.isNetworkError)
         {
-            Debug.Log("ç½‘ç»œé”™è¯¯:" + unityWebRequest.error);
+            Debug.Log("ÍøÂç´íÎó:" + unityWebRequest.error);
         }
         else
         {
             if (unityWebRequest.responseCode == 200)
             {
                 string result = unityWebRequest.downloadHandler.text;
-                print("æˆåŠŸè·å–åˆ°æ•°æ®:" + result);
+                print("³É¹¦»ñÈ¡µ½Êı¾İ:" + result);
                 OnGetHttpResponse_Success(result);
             }
             else
             {
-                print("çŠ¶æ€ç ä¸ä¸º200:" + unityWebRequest.responseCode);
-            } 
+                print("×´Ì¬Âë²»Îª200:" + unityWebRequest.responseCode);
+            }
         }
 
     }
-    
+
     /// <summary>
-    /// å½“æˆåŠŸè·å–åˆ°æœåŠ¡å™¨è¿”å›çš„jsonæ•°æ®æ—¶,è¿›è¡Œè§£æ
+    /// µ±³É¹¦»ñÈ¡µ½·şÎñÆ÷·µ»ØµÄjsonÊı¾İÊ±,½øĞĞ½âÎö
     /// </summary>
-    /// <param name="result">jsonæ•°æ®</param>
+    /// <param name="result">jsonÊı¾İ</param>
     private void OnGetHttpResponse_Success(string result)
     {
-        AccessToken accessToken = JsonMapper.ToObject<AccessToken>(result);
+        MyAccessToken accessToken = JsonMapper.ToObject<MyAccessToken>(result);
         Access_Token = accessToken.access_token;
     }
 
     /// <summary>
-    /// è¯­éŸ³è¯†åˆ«
+    /// ÓïÒôÊ¶±ğ
     /// </summary>
     /// <param name="audioClip"></param>
     /// <returns></returns>
-    IEnumerator Recognition(AudioClip audioClip,int recordTime)
+    IEnumerator Recognition(AudioClip audioClip, int recordTime)
     {
         WWWForm form = new WWWForm();
 
-        string url = string.Format("{0}?dev_pid=1737&cuid={1}&token={2}", SpeechRecognition_Address, SystemInfo.deviceUniqueIdentifier, Access_Token);
+        string url = string.Format("{0}?(dev_pid=1737||dev_pid=1537)&cuid={1}&token={2}", SpeechRecognition_Address, SystemInfo.deviceUniqueIdentifier, Access_Token);
         float[] samples = new float[16000 * recordTime * audioClip.channels];
-        //å°†audioclipå¡«å……åˆ°æ•°ç»„ä¸­
+        //½«audioclipÌî³äµ½Êı×éÖĞ
         audioClip.GetData(samples, 0);
         short[] sampleShort = new short[samples.Length];
         for (int i = 0; i < samples.Length; i++)
@@ -206,31 +234,33 @@ public class SpeechRecognize : MonoBehaviour {
 
         if (request.isNetworkError)
         {
-            Debug.Log("ç½‘ç»œé”™è¯¯:" + request.error);
+            Debug.Log("ÍøÂç´íÎó:" + request.error);
         }
         else
         {
             if (request.responseCode == 200)
             {
                 string result = request.downloadHandler.text;
-                print("æˆåŠŸè·å–åˆ°æ•°æ®:" + result);
+                print("³É¹¦»ñÈ¡µ½Êı¾İ:" + result);
 
-                RecognizeResult resultContent = JsonMapper.ToObject<RecognizeResult>(result);
+                MyRecognizeResult resultContent = JsonMapper.ToObject<MyRecognizeResult>(result);
                 RecognizeContent = resultContent.result[0];
-                ResultTest.GetComponent<Text>().text = resultContent.result[0];
+                RecognizeResult(RecognizeContent);
+                //Debug.Log(RecognizeContent);
+                //ResultTest.GetComponent<Text>().text = resultContent.result[0];
                 //RecordButton.GetComponentInChildren<Text>().text = resultContent.result[0];
             }
             else
             {
-                print("çŠ¶æ€ç ä¸ä¸º200:" + request.responseCode);
+                print("×´Ì¬Âë²»Îª200:" + request.responseCode);
             }
         }
     }
 
-   /// <summary>
-   /// è®¡ç®—éŸ³é‡
-   /// </summary>
-   private float GetVolume(AudioClip audioClip)
+    /// <summary>
+    /// ¼ÆËãÒôÁ¿
+    /// </summary>
+    private float GetMaxVolume(AudioClip audioClip)
     {
         float maxVolume = 0f;
         int maxTime = 16000 * recordTime * audioClip.channels;
@@ -239,7 +269,7 @@ public class SpeechRecognize : MonoBehaviour {
 
         audioClip.GetData(volumeData, 0);
 
-        for(int i = 0; i < maxTime; i++)
+        for (int i = 0; i < maxTime; i++)
         {
             float tempMax = volumeData[i];
             if (maxVolume < tempMax)
@@ -251,16 +281,36 @@ public class SpeechRecognize : MonoBehaviour {
         return maxVolume;
     }
 
-
+    /// <summary>
+    /// Ê¶±ğ½á¹û
+    /// </summary>
+    private void RecognizeResult(string recognize)
+    {
+        if(recognize.IndexOf("°¡")!=-1)
+        {
+            Debug.Log("Ê¶±ğ³É¹¦");
+            gameObject.transform.GetChild(0).GetComponent<VolumeGet>().SetTime();
+        }
+        /*for(int i=0;i<recognize.Length;i++)
+        {
+            if (recognize[i] == '°¡')
+            {
+                Debug.Log("hhh");
+            }
+        }
+        if (recognize == "°¡?")
+        //{
+        //    Debug.Log("hhh");
+        //}*/
+    }
 
 }
 
 
-
 /// <summary>
-/// AccessTokenåºåˆ—åŒ–jsonçš„å¯¹è±¡
+/// AccessTokenĞòÁĞ»¯jsonµÄ¶ÔÏó
 /// </summary>
-public class AccessToken
+public class MyAccessToken
 {
     public string access_token;
 
@@ -279,7 +329,7 @@ public class AccessToken
     {
     "access_token": "24.b243f17d64fa69b413d827f6a0965846.2592000.1542375343.282335-14131279",
     "session_key": "9mzdWWhYL0oUaqTY7WohNY0Fhd8Wxm4M7t4bTtlaq9/fyw7RXgztqR8+tmnAFpgywswOL3CQsU/v6PZ3ijK91/RmmiLb9Q==",
-    "scope": "audio_voice_assistant_get audio_tts_post public brain_all_scope wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Testæƒé™ vis-classify_flower lpq_å¼€æ”¾ cop_helloScope ApsMis_fangdi_permission smartapp_snsapi_base iop_autocar oauth_tp_app smartapp_smart_game_openapi oauth_sessionkey",
+    "scope": "audio_voice_assistant_get audio_tts_post public brain_all_scope wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_TestÈ¨ÏŞ vis-classify_flower lpq_¿ª·Å cop_helloScope ApsMis_fangdi_permission smartapp_snsapi_base iop_autocar oauth_tp_app smartapp_smart_game_openapi oauth_sessionkey",
     "refresh_token": "25.c2cf87484f244b6ef3d1d6a330727700.315360000.1855143343.282335-14131279",
     "session_secret": "7b9a68a03cbad17db3d13985dc7690d2",
     "expires_in": 2592000
@@ -290,9 +340,9 @@ public class AccessToken
 }
 
 /// <summary>
-/// è¯­éŸ³è¯†åˆ«æˆåŠŸå,è¿”å›çš„jsonæ•°æ®æ ¼å¼
+/// ÓïÒôÊ¶±ğ³É¹¦ºó,·µ»ØµÄjsonÊı¾İ¸ñÊ½
 /// </summary>
-public class RecognizeResult
+public class MyRecognizeResult
 {
     public string corpus_no;
 
@@ -300,11 +350,11 @@ public class RecognizeResult
 
     public int err_no;
     /// <summary>
-    /// è¯­éŸ³è¯†åˆ«åˆ°çš„ç»“æœ
+    /// ÓïÒôÊ¶±ğµ½µÄ½á¹û
     /// </summary>
     public List<string> result;
 
     public string sn;
 
-    //{"corpus_no":"6612962645817945596","err_msg":"success.","err_no":0,"result":["ä½ ä»Šå¹´å¤šå¤§ï¼Œ"],"sn":"845877030391539700349"}
+    //{"corpus_no":"6612962645817945596","err_msg":"success.","err_no":0,"result":["Äã½ñÄê¶à´ó£¬"],"sn":"845877030391539700349"}
 }

@@ -7,20 +7,20 @@ public class Speech : MonoBehaviour
 {
     private PhraseRecognizer m_phraseRecognizer;
     public string[] keywords = { };
-    public ConfidenceLevel m_confidenceLevel = ConfidenceLevel.Medium;
+    public ConfidenceLevel m_confidenceLevel = ConfidenceLevel.High;
 
     private float speechTime = -1.0f;
     private bool canSpeech = false;
 
     public float volume;
-    private bool Getvolume = false;
+    private bool Getvolume = true;
     AudioClip micRecord;
     string device;
 
     // Start is called before the first frame update
     void Start()
     {
-        keywords = new string[] {"Ð»" };
+        keywords = new string[] {"°¡" };
         if(m_phraseRecognizer == null)
         {
             m_phraseRecognizer = new KeywordRecognizer(keywords, m_confidenceLevel);
@@ -56,7 +56,7 @@ public class Speech : MonoBehaviour
 
     private void StartSpeech()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             StartRecognizer();
             speechTime = 50.0f;
@@ -115,6 +115,25 @@ public class Speech : MonoBehaviour
             }
         }
         return maxVolume;
+    }
+
+
+    private void SetGunInterval()
+    {
+        Gun gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Gun>();
+
+        if (volume < 0.5)
+        {
+            gun.ChangeInterval(1);
+        }
+        else if(volume>=0.5f&&volume<=1.5f)
+        {
+            gun.ChangeInterval(0.5f);
+        }
+        else if (volume > 1.5f)
+        {
+            gun.ChangeInterval(0.2f);
+        }
     }
 
 }

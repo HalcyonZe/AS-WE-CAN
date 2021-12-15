@@ -15,6 +15,9 @@ public class Gun : MonoBehaviour
     protected float flipY;
     protected Animator animator;
 
+    protected float interval_MouseButton = 0.5f;
+    protected float time_MouseButton;
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,6 +28,15 @@ public class Gun : MonoBehaviour
 
     protected virtual void Update()
     {
+
+        GunMove();
+
+        MouseButtonShoot();
+        //Shoot();
+    }
+
+    protected void GunMove()
+    {
         //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos = Input.mousePosition;
         Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -34,15 +46,14 @@ public class Gun : MonoBehaviour
         else
             transform.localScale = new Vector3(flipY, flipY, 1);
 
-        Shoot();
-    }
-
-    protected virtual void Shoot()
-    {
         direction = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized;
         //direction = (mousePos - new Vector2(transform.position.x, transform.position.y)).normalized;
         transform.right = direction;
 
+    }
+
+    protected virtual void Shoot()
+    {      
         if (timer != 0)
         {
             timer -= Time.deltaTime;
@@ -55,6 +66,25 @@ public class Gun : MonoBehaviour
             if (timer == 0)
             {
                 timer = interval;
+                Fire();
+            }
+        }
+    }
+
+    protected virtual void MouseButtonShoot()
+    {
+        if (time_MouseButton != 0)
+        {
+            time_MouseButton -= Time.deltaTime;
+            if (time_MouseButton <= 0)
+                time_MouseButton = 0;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            if(time_MouseButton == 0)
+            {
+                time_MouseButton = interval_MouseButton;
                 Fire();
             }
         }
@@ -89,4 +119,10 @@ public class Gun : MonoBehaviour
         shell.transform.position = shellPos.position;
         shell.transform.rotation = shellPos.rotation;*/
     }
+
+    public void ChangeInterval(float x)
+    {
+        interval_MouseButton = 0.5f * x;
+    }
+
 }
