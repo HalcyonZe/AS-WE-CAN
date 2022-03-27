@@ -69,47 +69,47 @@ public class VolumeGet : MonoBehaviour
 
     private void SetGunInterval()
     {
-        Gun gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Gun>();
+        Weapons m_weapon = GameObject.FindGameObjectWithTag("Weapons").GetComponent<Weapons>();
 
         if (volume < 0.3)
         {
-            gun.ChangeInterval(1);
+            m_weapon.ChangeInterval(1);
         }
         else if (volume >= 0.3f && volume <= 0.5f)
         {
-            gun.ChangeInterval(0.8f);
+            m_weapon.ChangeInterval(0.8f);
         }
         else if (volume > 0.5f && volume <= 0.75f)
         {
-            gun.ChangeInterval(0.6f);
+            m_weapon.ChangeInterval(0.6f);
         }
         else if (volume > 0.75f && volume <= 1.0f)
         {
-            gun.ChangeInterval(0.45f);
+            m_weapon.ChangeInterval(0.45f);
         }
         else if (volume > 1.0f && volume <= 1.5f)
         {
-            gun.ChangeInterval(0.3f);
+            m_weapon.ChangeInterval(0.3f);
         }
         else if (volume > 1.5f && volume <= 3.0f)
         {
-            gun.ChangeInterval(0.2f);
+            m_weapon.ChangeInterval(0.2f);
         }
         else if (volume > 3.0f && volume <= 5f)
         {
-            gun.ChangeInterval(0.1f);
+            m_weapon.ChangeInterval(0.1f);
         }
         else if (volume > 5f && volume <= 7f)
         {
-            gun.ChangeInterval(0.05f);
+            m_weapon.ChangeInterval(0.05f);
         }
         else if (volume > 7f && volume <= 9f)
         {
-            gun.ChangeInterval(0.025f);
+            m_weapon.ChangeInterval(0.025f);
         }
         else if (volume > 9f)
         {
-            gun.ChangeInterval(0.01f);
+            m_weapon.ChangeInterval(0.01f);
         }
     }
 

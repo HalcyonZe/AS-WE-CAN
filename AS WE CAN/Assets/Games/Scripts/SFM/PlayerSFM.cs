@@ -9,10 +9,11 @@ public class StateParameter
 {
     #region  Ù–‘
     /*[HideInInspector]*/ public float speed;
+    /*[HideInInspector]*/ public int PlayerLife;
+    [HideInInspector] public int MaxLife = 10;   
     [HideInInspector] public Vector3 input;
     [HideInInspector] public Vector3 mousePos;
-    [HideInInspector] public int MaxLife = 10;
-    [HideInInspector] public int PlayerLife;
+    
 
     #endregion
 
