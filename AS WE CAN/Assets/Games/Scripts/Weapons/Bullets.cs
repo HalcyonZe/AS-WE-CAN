@@ -5,8 +5,8 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
 
-    private int atk;
-    private Rigidbody rigidbody;
+    protected int atk;
+    protected Rigidbody rigidbody;
 
     void Awake()
     {
@@ -20,5 +20,20 @@ public class Bullets : MonoBehaviour
         this.atk = atk;
     }
 
+    /*private void OnTriggerEnter(Collider other)
+    {
+        switch(other.tag)
+        {
+            case "Player":
+                other.GetComponent<PlayerSFM>().LifeChange(-1 * this.atk);
+                ObjectPool.Instance.PushObject(gameObject);
+                break;
+            case "Enemy":
+                other.GetComponent<Enemys>().HpChange(-1 * this.atk);
+                ObjectPool.Instance.PushObject(gameObject);
+                break;
+        }
+        
+    }*/
 
 }

@@ -18,4 +18,15 @@ public class Banana : Enemys
             bullet.GetComponent<Bullets>().ShootBullet(dir, bulletSpeed, atk);
         }              
     }
+
+    protected override void EnemyDied()
+    {
+        base.EnemyDied();
+        AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
+        if (info.normalizedTime >= 1 && (info.IsName("Death_Left_Banana") || info.IsName("Death_Right_Banana")))
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

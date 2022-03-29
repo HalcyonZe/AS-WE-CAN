@@ -10,6 +10,7 @@ public class Enemys : MonoBehaviour
     }
 
     #region  Ù–‘
+    public int m_Hp;
     public int atk;
     public float bulletSpeed;
     private float fire_time = 0.0f;
@@ -55,6 +56,7 @@ public class Enemys : MonoBehaviour
                 EnemyAttack();
                 break;
             case EnemyState.death:
+                EnemyDied();
                 break;
         }
         
@@ -114,6 +116,22 @@ public class Enemys : MonoBehaviour
     {
 
         
+    }
+
+    public void HpChange(int value)
+    {
+        m_Hp += value;
+        Debug.Log("µ–»À—™¡ø" + m_Hp);
+        if (m_Hp<=0)
+        {
+            curState = EnemyState.death;
+        }
+    }
+
+    protected virtual void EnemyDied()
+    {
+        m_rigidbody.velocity = Vector3.zero;
+        m_animator.SetBool("IsDead", true);
     }
 
 }

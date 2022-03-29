@@ -9,7 +9,7 @@ public class StateParameter
 {
     #region ÊôÐÔ
     /*[HideInInspector]*/ public float speed;
-    /*[HideInInspector]*/ public int PlayerLife;
+    /*[HideInInspector]*/ public int playerLife;
     [HideInInspector] public int MaxLife = 10;   
     [HideInInspector] public Vector3 input;
     [HideInInspector] public Vector3 mousePos;
@@ -63,6 +63,12 @@ public class PlayerSFM : MonoBehaviour
         curState.OnExit();
         curState = stateDic[type];
         curState.OnEnter();
+    }
+
+    public void LifeChange(int value)
+    {
+        parameter.playerLife += value;
+        Debug.Log("Íæ¼ÒÑªÁ¿"+ parameter.playerLife);
     }
 
 }

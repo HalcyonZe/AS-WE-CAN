@@ -20,5 +20,14 @@ public class Van : Enemys
         
     }
 
+    protected override void EnemyDied()
+    {
+        base.EnemyDied();
+        AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
+        if(info.normalizedTime >= 1 && (info.IsName("Death_Left_Van")|| info.IsName("Death_Right_Van")))
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }

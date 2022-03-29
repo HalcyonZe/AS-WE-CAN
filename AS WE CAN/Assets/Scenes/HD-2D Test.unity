@@ -133,12 +133,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2584215}
   - component: {fileID: 2584214}
+  - component: {fileID: 2584217}
   - component: {fileID: 2584213}
   - component: {fileID: 2584216}
-  - component: {fileID: 2584217}
+  - component: {fileID: 2584218}
   m_Layer: 0
   m_Name: Van
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfba053e7e7009b42a73ad5a9ea129ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Hp: 5
   atk: 1
   bulletSpeed: 5
   fire_interval: 0.5
@@ -163,7 +165,7 @@ MonoBehaviour:
   idle_interval: 1.5
   moveDir: {x: 1, y: 0, z: 0}
   moveSpeed: 2
-  bulletPrefab: {fileID: 4028690415889179283, guid: b52ca907238c4d14ea86342688560fca, type: 3}
+  bulletPrefab: {fileID: 4028690415889179283, guid: ac01120c2514cc740a09a1cebfb07a44, type: 3}
   m_animator: {fileID: 0}
   m_rigidbody: {fileID: 0}
 --- !u!212 &2584214
@@ -266,6 +268,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &2584218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.47760487, y: 1.0091333, z: 0.2}
+  m_Center: {x: -0.08858776, y: -0.01107347, z: 0}
 --- !u!1 &32431267
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,11 +714,11 @@ GameObject:
   - component: {fileID: 739547458}
   m_Layer: 0
   m_Name: Billy
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &739547454
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -804,7 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter:
     speed: 5
-    PlayerLife: 0
+    playerLife: 0
     MaxLife: 10
     input: {x: 0, y: 0, z: 0}
     mousePos: {x: 0, y: 0, z: 0}
@@ -853,9 +868,10 @@ GameObject:
   - component: {fileID: 988329220}
   - component: {fileID: 988329224}
   - component: {fileID: 988329223}
+  - component: {fileID: 988329225}
   m_Layer: 0
   m_Name: Banana
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -972,6 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4a839b1df1d6146aed2a29a68d239c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Hp: 5
   atk: 1
   bulletSpeed: 5
   fire_interval: 1.5
@@ -980,9 +997,22 @@ MonoBehaviour:
   idle_interval: 1.5
   moveDir: {x: -1, y: 0, z: 0}
   moveSpeed: 2
-  bulletPrefab: {fileID: 4028690415889179283, guid: b52ca907238c4d14ea86342688560fca, type: 3}
+  bulletPrefab: {fileID: 4028690415889179283, guid: ac01120c2514cc740a09a1cebfb07a44, type: 3}
   m_animator: {fileID: 0}
   m_rigidbody: {fileID: 0}
+--- !u!65 &988329225
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988329219}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5440464, y: 1.0866476, z: 0.2}
+  m_Center: {x: 0.15502882, y: 0.060904205, z: 0}
 --- !u!65 &1128113742
 BoxCollider:
   m_ObjectHideFlags: 0
