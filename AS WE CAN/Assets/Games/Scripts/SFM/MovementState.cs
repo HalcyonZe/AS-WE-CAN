@@ -44,7 +44,10 @@ public class MovementState : BaseState
             para.m_animator.SetBool("IsRolling", false);
         }
 
-        para.m_rigidbody.velocity = para.input.normalized * para.speed;          
+        para.m_rigidbody.velocity = para.input.normalized * para.speed;
+
+        //控制语音输入
+        SpeechStateSwitch();
 
     }
 
@@ -52,6 +55,19 @@ public class MovementState : BaseState
     {
         base.OnExit();
         para.input = Vector3.zero;
+    }
+
+    private void SpeechStateSwitch()
+    {
+        if (Input.GetKeyDown(KeyCode.Z) && para.speech_timer == 0)
+        {
+
+            Debug.Log("开始");
+            //para.speech_timer = para.speech_interval;
+
+            ctrl.SwitchState(PlayerState.Speech);
+
+        }
     }
 
 }

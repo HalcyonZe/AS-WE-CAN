@@ -9,11 +9,13 @@ public class StateParameter
 {
     #region 属性
     /*[HideInInspector]*/ public float speed;
-    /*[HideInInspector]*/ public int playerLife;
+    /*[HideInInspector]*/ public int playerLife;   
     [HideInInspector] public int MaxLife = 10;   
     [HideInInspector] public Vector3 input;
     [HideInInspector] public Vector3 mousePos;
-    
+
+    [HideInInspector] public float speech_timer = 0;
+    [HideInInspector] public float speech_interval = 1.5f;
 
     #endregion
 
@@ -43,6 +45,8 @@ public class PlayerSFM : MonoBehaviour
 
         //状态机
         stateDic.Add(PlayerState.Movement, new MovementState(this));
+        stateDic.Add(PlayerState.Death, new DeathState(this));
+        stateDic.Add(PlayerState.Speech, new SpeechState(this));
 
         curState = stateDic[PlayerState.Movement];
         curState.OnEnter();
@@ -69,6 +73,10 @@ public class PlayerSFM : MonoBehaviour
     {
         parameter.playerLife += value;
         Debug.Log("玩家血量"+ parameter.playerLife);
+        if(parameter.playerLife<=0)
+        {
+            SwitchState(PlayerState.Death);
+        }
     }
 
 }

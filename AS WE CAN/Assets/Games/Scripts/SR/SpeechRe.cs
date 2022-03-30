@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
-public class SpeechRe : MonoBehaviour
+public class SpeechRe : Singleton<SpeechRe>
 {
     public string APP_ID = "14131279";
     public string API_KEY = "E4kRdXVk4GmFROT6IubGGXpy";
@@ -60,8 +60,8 @@ public class SpeechRe : MonoBehaviour
     [Header("Â¼ÒôµÄÊ±³¤")]
     public int recordTime = 5;
 
-    private float interval = 1.5f;
-    private float timer = 0;
+    //private float interval = 1.5f;
+    //private float timer = 0;
 
 
     private void Start()
@@ -83,9 +83,9 @@ public class SpeechRe : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    /*private void Update()
     {
-        OnRecord();
+        //OnRecord();
     }
 
     private void OnRecord()
@@ -114,6 +114,17 @@ public class SpeechRe : MonoBehaviour
 
             }
         }
+    }*/
+
+    public void StartRecord()
+    {
+        RecordAudioClip = Microphone.Start(MicrophoneName, false, recordTime, 16000);
+    }
+
+    public void EndRecord()
+    {
+        Microphone.End(MicrophoneName);
+        StartCoroutine(Recognition(RecordAudioClip, recordTime));
     }
 
     /// <summary>
@@ -245,7 +256,9 @@ public class SpeechRe : MonoBehaviour
 
                 MyRecognizeResult resultContent = JsonMapper.ToObject<MyRecognizeResult>(result);
                 RecognizeContent = resultContent.result[0];
-                RecognizeResult(RecognizeContent);
+                SpeechController.Instance.RecognizeResult(RecognizeContent);
+                //RecognizeResult(RecognizeContent);
+
                 //Debug.Log(RecognizeContent);
                 //ResultTest.GetComponent<Text>().text = resultContent.result[0];
                 //RecordButton.GetComponentInChildren<Text>().text = resultContent.result[0];

@@ -1,7 +1,7 @@
 
 public enum PlayerState
 {
-    Movement, Hurt, Death, Attack, Action
+    Movement, Hurt, Death, Attack, Action, Speech
 }
 
 public abstract class BaseState
