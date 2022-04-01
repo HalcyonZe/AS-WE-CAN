@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    private PlayerMovement player;
+    private Player player;
+ 
     private bool isPlayerIn=false;
 
     public int addFoodNum = 1;
-    public int addLifeNum = 1;
+    
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType <PlayerMovement>();
+        player = FindObjectOfType <Player>();
+       
     }
 
     // Update is called once per frame
@@ -22,10 +24,10 @@ public class Food : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.F))
             {
-                player.food+=addFoodNum;
-                player.life += addLifeNum;
+                player.takeFoodNum+=addFoodNum;
+                
 
-                Debug.Log("Oh year!!！增加饱食度和生命值" + " 生命：" + player.life + " 饱食度:" + player.food);
+                Debug.Log("Oh year!!！增加持有食物数量 持有食物数量：" + player.takeFoodNum);
 
                 Destroy(gameObject);
             }

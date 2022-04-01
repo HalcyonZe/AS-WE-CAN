@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 
 [Serializable]
-public class StateParameter
+public class StateParameter 
 {
     #region  Ù–‘
     /*[HideInInspector]*/ public float speed;
