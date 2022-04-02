@@ -34,6 +34,12 @@ public class Farm : MonoBehaviour
 
     private Player player;
     private bool isPlayerIn = false;
+
+
+    bool isFriendIn = false;
+    int friendSkill = 0;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,20 +53,22 @@ public class Farm : MonoBehaviour
 
         if(dead==false)
         {
-            if (isPlayerIn == true && Input.GetKeyDown(KeyCode.F))
+            if ((isPlayerIn == true && Input.GetKeyDown(KeyCode.F))||isFriendIn)
             {
                 //播种
-                if (player.takeFoodNum > 0 && seedling == false&&isPlan==false&&haveTree==false)
+                if (((player.takeFoodNum > 0)||isFriendIn) && seedling == false&&isPlan==false&&haveTree==false)
                 {
                     player.takeFoodNum--;
                     seedling = true;
                     isPlan = true;
 
                     growthCycle[0].SetActive(true);
+
+                    growTimer = 0;
                 }
 
                 //浇水
-                if (player.Watering())
+                if (player.Watering()||isFriendIn)
                 {
                     
 
@@ -124,19 +132,46 @@ public class Farm : MonoBehaviour
 
             else if (resulting == true)
             {
-                if (growTimer >= growTimeInterval||(resultTimes==3))
+                if (growTimer >= growTimeInterval||(resultTimes==3)|| (resultTimes == 6))
                 {
 
-                    if (resultTimes <= 2)
+                    if (resultTimes <= 2&&(player.isAddPlantRusultBananaNum==false||friendSkill==0))
                     {
                         if(resultTimes==2)
                         {
-                            Instantiate(bunana, resultPos.transform.position + new Vector3(-1, resultPos.transform.position.y,1), resultPos.transform.rotation);
+                          Instantiate(bunana, resultPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), resultPos.transform.rotation);
+                           
+
 
                         }
                         else
                         {
-                            Instantiate(bunana, resultPos.transform.position + new Vector3(resultTimes, resultPos.transform.position.y, resultTimes), resultPos.transform.rotation);
+                            Instantiate(bunana, resultPos.transform.position + new Vector3(resultTimes+ Random.Range(-0.5f, 1f), 0, Random.Range(-2.1f, 2.1f)), resultPos.transform.rotation);
+                           
+                        }
+                        growTimer = 0;
+                        resultTimes++;
+
+                        
+                    }
+
+                    else if(resultTimes <= 5&&(player.isAddPlantRusultBananaNum==true||friendSkill==1))
+                    {
+                        if (resultTimes == 2)
+                        {
+                            Instantiate(bunana, resultPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), resultPos.transform.rotation);
+
+
+
+                        }
+                        else if(resultTimes>2)
+                        {
+                            Instantiate(bunana, resultPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-1, 1.5f)), resultPos.transform.rotation);
+
+                        }
+                        else
+                        {
+                            Instantiate(bunana, resultPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, resultTimes + Random.Range(-0.5f, 1f)), resultPos.transform.rotation);
 
                         }
                         growTimer = 0;
@@ -152,6 +187,8 @@ public class Farm : MonoBehaviour
                         resultTimes = 0;
 
                         dead = true;
+
+                        friendSkill = 1;
                     }
                 }
 
@@ -167,6 +204,13 @@ public class Farm : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = true;
+
+            //设置此时要放置的类型是农民
+            player.friendKind = 0;
+        }
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -174,6 +218,22 @@ public class Farm : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = false;
+        }
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = false;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = true;
+        }
+        else
+        {
+            isFriendIn = false;
         }
     }
 }

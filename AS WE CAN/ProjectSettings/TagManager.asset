@@ -7,6 +7,8 @@ TagManager:
   - Gun
   - Weapons
   - Enemy
+  - Friend_Farmland
+  - Friend_Pickaxe
   layers:
   - Default
   - TransparentFX

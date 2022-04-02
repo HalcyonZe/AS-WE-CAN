@@ -25,6 +25,10 @@ public class Banana : Enemys
         AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime >= 1 && (info.IsName("Death_Left_Banana") || info.IsName("Death_Right_Banana")))
         {
+            //
+            Player player = FindObjectOfType<Player>();
+            player.BananaManNum++;
+            //
             Destroy(gameObject);
         }
     }

@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
 
 
-
+  public  MovementState movementState;
 
     PlayerSFM playerSFM;
     
    public GameObject gun;
+    public GameObject Z_Billy;
+    float zShowTimer=0;
    
     public GameObject axe;
     public List<GameObject> axeList;
@@ -33,9 +35,9 @@ public class Player : MonoBehaviour
     
     
 
-   public int water = 10;
+    public int water = 10;
     public int maxWater = 10;
-    private int food = 10;
+    public int food = 10;
     public int maxFood = 10;
     public float hungerInterval = 10;
      float hungerClock;
@@ -51,6 +53,22 @@ public class Player : MonoBehaviour
     public int takeStoneNum = 0;
 
 
+    private float zTimer = 0;
+    public  float zInterval = 20;
+
+    public bool isAddPlantRusultBananaNum = false;
+
+    public int VanNum=0;
+    public int BananaManNum=0;
+
+    public GameObject Banana_friend_FarmLand;
+    public GameObject Banana_friend_PickAxe;
+    public GameObject Van_friend_FarmLand;
+    public GameObject Van_friend_Pickaxe;
+    
+    //0是农民1是矿工
+    public int friendKind=0;
+
     void Start()
     {
         water = maxWater;
@@ -62,11 +80,14 @@ public class Player : MonoBehaviour
        
         hungerClock = hungerInterval;
         thirstyClock = thirstyInterval;
+
+
     }
 
     void Update()
     {
-
+        zTimer += Time.deltaTime;
+        Check_Z_Cd();
         //survival part
         survival();
 
@@ -74,8 +95,59 @@ public class Player : MonoBehaviour
 
         //当前生命值饱食度水分的增益与减少的限制
         Life_Food_Water_Limit();
+
+        //放置用于生产的友军
+        PlaceFriend();
+
+
+        Z_billy();
     }
 
+
+
+    void Z_billy()
+    {
+        
+
+        //时间被重置说明Z被执行
+        if(playerSFM.parameter.Z_Start==true)
+        {
+            Z_Billy.SetActive(true);
+        }
+
+        if(Z_Billy.activeSelf)
+        {
+            zShowTimer += Time.deltaTime;
+        }
+        if(zShowTimer>=5)
+        {
+            Z_Billy.SetActive(false);
+            zShowTimer = 0;
+            playerSFM.parameter.Z_Start = false;
+        }
+    }
+    //检查计时是否大于语言大招的cd；
+   void Check_Z_Cd()
+    {
+       
+        if(zTimer>=zInterval)
+        {
+            playerSFM.parameter.canZ = true;  
+        }
+        else
+        {
+            playerSFM.parameter.canZ = false;
+        }
+
+
+        if(playerSFM.parameter.resetZtimer==true)
+        {
+            playerSFM.parameter.resetZtimer = false;
+            playerSFM.parameter.canZ = false;
+            
+            zTimer = 0;
+        }
+    }
 
     //改变桶的图片
   public  void ChangeBucktsSprites()
@@ -184,11 +256,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void  ShowAxe()
+  public  void  ShowAxe()
     {
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            print("5");
+          
             nowShow.SetActive(false);
             axe.SetActive(true);
             nowShow =axe;
@@ -196,11 +268,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void ShowPickaxe()
+ public   void ShowPickaxe()
     {
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            print("6");
+            
             nowShow.SetActive(false);
             pickaxe.SetActive(true);
             nowShow = pickaxe;
@@ -250,6 +322,9 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1)&&takeFoodNum>0)
         {
             food += 2;
+            
+            playerSFM.parameter.playerLife += 2;
+            
             takeFoodNum--;
             print("吃了:" + food);
         }
@@ -328,5 +403,46 @@ public class Player : MonoBehaviour
 
         }
     }
+
+    void PlaceFriend()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            //0和1分别是农民和矿工，确认职业后随机选择是van还是香蕉君
+            int kind = 0;
+            if (friendKind == 0)
+            {
+                kind = Random.Range(0, 2);
+            }
+            else if (friendKind == 1)
+            {
+                kind = Random.Range(2, 4);
+            }
+
+
+            if (kind == 0 && BananaManNum >= 1)
+            {
+                Instantiate(Banana_friend_FarmLand, gameObject.transform.position, gameObject.transform.rotation);
+                BananaManNum--;
+            }
+            else if (kind == 1 && VanNum >= 1)
+            {
+                Instantiate(Van_friend_FarmLand, gameObject.transform.position, gameObject.transform.rotation);
+                VanNum--;
+            }
+            else if (kind == 2 && BananaManNum >= 1)
+            {
+                Instantiate(Banana_friend_PickAxe, gameObject.transform.position, gameObject.transform.rotation);
+                BananaManNum--;
+            }
+            else if (kind == 3 && VanNum >= 1)
+            {
+                Instantiate(Van_friend_Pickaxe, gameObject.transform.position, gameObject.transform.rotation);
+                VanNum--;
+            }
+
+        }
+    }
+        
 
 }

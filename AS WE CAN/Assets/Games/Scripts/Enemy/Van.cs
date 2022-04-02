@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Van : Enemys
 {
+    
+
     private Vector3 dir = new Vector3(1,0,0);
 
     protected override void Attack()
@@ -26,6 +28,10 @@ public class Van : Enemys
         AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
         if(info.normalizedTime >= 1 && (info.IsName("Death_Left_Van")|| info.IsName("Death_Right_Van")))
         {
+            //
+            Player player=FindObjectOfType<Player>();
+            player.VanNum++;
+            //
             Destroy(gameObject);
         }
     }

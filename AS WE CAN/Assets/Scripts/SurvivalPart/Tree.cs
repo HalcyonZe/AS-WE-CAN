@@ -8,12 +8,15 @@ public class Tree : MonoBehaviour
     public GameObject woodPos;
     public Farm farm;
 
-    float HP = 10;
+   public float HP = 10;
 
     private Player player;
     float timer = 0;
   
     private bool isPlayerIn = false;
+
+    bool isFriendIn = false;   
+    float friendDemage = 0.75f;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,23 +53,23 @@ public class Tree : MonoBehaviour
                     if(player.uesAxeID==0)
                     {
                         Instantiate(wood, woodPos.transform.position, woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, 1), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
                         
                     }
                     if (player.uesAxeID == 1)
                     {
                         Instantiate(wood, woodPos.transform.position, woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, 1), woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(-1, 0, 1), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
                     }
                     if (player.uesAxeID == 2)
                     {
                         Instantiate(wood, woodPos.transform.position, woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, 1), woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(-1, 0, 1), woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(2, 0, 2), woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(-2, 0, 2), woodPos.transform.rotation);
-                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, 0), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(-1, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(-2, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
                     }
 
                     farm.haveTree = false;
@@ -76,6 +79,32 @@ public class Tree : MonoBehaviour
             }
             
         }
+
+        if (isFriendIn)
+        {
+            HP -= friendDemage * Time.deltaTime;
+
+
+         
+                gameObject.GetComponent<Animator>().SetBool("IsHit", true);
+                
+                if (HP <= 0)
+                {
+                        Instantiate(wood, woodPos.transform.position, woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(1, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(-1, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(-2, 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                        Instantiate(wood, woodPos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), woodPos.transform.rotation);
+                    
+
+                    farm.haveTree = false;
+
+                    Destroy(gameObject);
+                }
+            
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -83,6 +112,13 @@ public class Tree : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = true;
+
+            //设置此时要放置的类型是农民
+            player.friendKind = 0;
+        }
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -90,6 +126,23 @@ public class Tree : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = false;
+        }
+
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = false;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Friend_Farmland")
+        {
+            isFriendIn = true;
+        }
+        else
+        {
+            isFriendIn = false;
         }
     }
 

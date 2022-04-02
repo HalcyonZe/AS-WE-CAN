@@ -28,9 +28,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6226505056835549935}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.174, y: 0.5, z: -4.68}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3200709, y: 1.3200709, z: 1.3200709}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Hp: 5
   atk: 1
-  bulletSpeed: 5
+  bulletSpeed: 8
   fire_interval: 0.5
   curState: 0
   move_interval: 2

@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class MovementState : BaseState
 {
+    
+   
+    
+    
+    //
+    void Update()
+    {
+
+    }
     public MovementState(PlayerSFM sfm)
     {
         ctrl = sfm;
@@ -59,14 +68,18 @@ public class MovementState : BaseState
 
     private void SpeechStateSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && para.speech_timer == 0)
+        if (para.canZ==true&&Input.GetKeyDown(KeyCode.Z) && para.speech_timer == 0)
         {
 
             Debug.Log("¿ªÊ¼");
             //para.speech_timer = para.speech_interval;
 
             ctrl.SwitchState(PlayerState.Speech);
-
+           
+            //
+            para.resetZtimer = true;
+            para.Z_Start = true;
+            //
         }
     }
 

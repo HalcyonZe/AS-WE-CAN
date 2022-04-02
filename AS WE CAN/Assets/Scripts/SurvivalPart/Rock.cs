@@ -9,7 +9,11 @@ public class Rock : MonoBehaviour
     private Player player;
     float timer = 0;
     private bool isPlayerIn = false;
-    float HP = 10;
+    public float HP = 10;
+
+    bool isFriendIn=false;
+    int friendSkill = 0;
+    float friendDemage=0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,31 +44,31 @@ public class Rock : MonoBehaviour
                     HP -= 5;
                 }
                 
-                print(HP);
+                
                 if (HP <= 0)
                 {
                     if (player.usePiceAxeID == 0)
                     {
                         Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, 1), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
                         HP = 10;
 
                     }
-                    if (player.usePiceAxeID == 1)
+                   else if (player.usePiceAxeID == 1)
                     {
                         Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, 1), stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(-1, 0, 1), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, 1), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
                         HP = 10;
                     }
-                    if (player.usePiceAxeID == 2)
+                   else   if (player.usePiceAxeID == 2)
                     {
                         Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, 1), stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(-1, 0, 1), stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(2, 0, 2), stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(-2, 0, 2), stonePos.transform.rotation);
-                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, 0), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, 0), stonePos.transform.rotation);
                         HP = 10;
                     }
 
@@ -75,6 +79,56 @@ public class Rock : MonoBehaviour
             }
 
         }
+        if (isFriendIn)
+        {
+
+
+
+            HP -= friendDemage*Time.deltaTime;
+
+                
+                if (HP <= 0)
+                {
+                    if (friendSkill == 0)
+                    {
+                        Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, 1), stonePos.transform.rotation);
+                        HP = 10;
+
+                        friendSkill++;
+
+                        friendDemage = 0.5f;
+
+                    }
+                  else  if (friendSkill == 1)
+                    {
+                        Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(1, 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, 1), stonePos.transform.rotation);
+                        HP = 10;
+
+                        friendSkill++;
+
+                        friendDemage = 0.75f;
+                }
+                 else   if (friendSkill == 2)
+                    {
+                        Instantiate(stone, stonePos.transform.position, stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, Random.Range(-2.1f, 2.1f)), stonePos.transform.rotation);
+                        Instantiate(stone, stonePos.transform.position + new Vector3(Random.Range(-2.1f, 2.1f), 0, 0), stonePos.transform.rotation);
+                        HP = 10;
+                        friendDemage = 1;
+                }
+
+
+
+
+                
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -82,6 +136,13 @@ public class Rock : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = true;
+
+            //设置此时要放置的类型是矿工
+            player.friendKind = 1;
+        }
+        if(other.tag=="Friend_Pickaxe")
+        {
+            isFriendIn = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -89,6 +150,23 @@ public class Rock : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerIn = false;
+        }
+
+        if (other.tag == "Friend_Pickaxe")
+        {
+            isFriendIn = false;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Friend_Pickaxe")
+        {
+            isFriendIn = true;
+        }
+        else
+        {
+            isFriendIn = false;
         }
     }
 }

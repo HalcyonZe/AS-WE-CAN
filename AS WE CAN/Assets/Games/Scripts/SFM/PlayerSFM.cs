@@ -10,7 +10,7 @@ public class StateParameter
     #region  Ù–‘
     /*[HideInInspector]*/ public float speed;
     /*[HideInInspector]*/ public int playerLife;   
-    [HideInInspector] public int MaxLife = 10;   
+    /*[HideInInspector]*/ public int MaxLife = 10;   
     [HideInInspector] public Vector3 input;
     [HideInInspector] public Vector3 mousePos;
 
@@ -25,6 +25,12 @@ public class StateParameter
     [HideInInspector] public int gunNum;
     #endregion
 
+    //
+    public bool canZ=false;
+    public bool resetZtimer=false;
+    public bool Z_Start = false;
+    
+    //
 }
 
 public class PlayerSFM : MonoBehaviour
@@ -33,6 +39,8 @@ public class PlayerSFM : MonoBehaviour
     private BaseState curState;
     public StateParameter parameter = new StateParameter();
 
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +58,9 @@ public class PlayerSFM : MonoBehaviour
 
         curState = stateDic[PlayerState.Movement];
         curState.OnEnter();
+
+
+      
     }
 
     // Update is called once per frame
@@ -79,4 +90,11 @@ public class PlayerSFM : MonoBehaviour
         }
     }
 
+
+    //
+    void resetZtimer()
+    {
+
+    }
+    //
 }
