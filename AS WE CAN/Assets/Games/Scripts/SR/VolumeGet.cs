@@ -32,11 +32,15 @@ public class VolumeGet : MonoBehaviour
             volume = GetVolume();
             SetGunInterval();
             time_volume -= Time.deltaTime;
+
+            PlayerSFM.Instance.parameter.volume_Can = true;
+
             if (time_volume <= 0)
             { 
                 time_volume = 0;
                 Weapons m_weapon = GameObject.FindGameObjectWithTag("Weapons").GetComponent<Weapons>();
                 m_weapon.fire_interval = m_weapon.fire_current;
+                PlayerSFM.Instance.parameter.volume_Can = false;
             }
             
         }

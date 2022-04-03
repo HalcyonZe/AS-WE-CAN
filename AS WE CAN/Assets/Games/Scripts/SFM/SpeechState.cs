@@ -17,6 +17,7 @@ public class SpeechState : BaseState
     {
         Debug.Log("¿ªÊ¼Â¼Òô");
         para.speech_timer = para.speech_interval;
+        para.speech_Can = true;
         SpeechRe.Instance.StartRecord();
 
     }
@@ -30,6 +31,7 @@ public class SpeechState : BaseState
             {
                 Debug.Log("½áÊøÂ¼Òô");
                 para.speech_timer = 0;
+                para.speech_Can = false;
                 SpeechRe.Instance.EndRecord();
                 ctrl.SwitchState(PlayerState.Movement);
             }

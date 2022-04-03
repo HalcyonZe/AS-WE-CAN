@@ -29,11 +29,16 @@ public class StateParameter
     public bool canZ=false;
     public bool resetZtimer=false;
     public bool Z_Start = false;
+
+    //语音输入bool
+    public bool speech_Can = false;
+    //改变射击频率bool
+    public bool volume_Can = false;
     
     //
 }
 
-public class PlayerSFM : MonoBehaviour
+public class PlayerSFM : Singleton<PlayerSFM>
 {
     private Dictionary<PlayerState, BaseState> stateDic = new Dictionary<PlayerState, BaseState>();
     private BaseState curState;
