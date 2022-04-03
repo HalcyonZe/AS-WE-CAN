@@ -12,6 +12,9 @@ public class BulletPlayer : Bullets
                 other.GetComponent<Enemys>().HpChange(-1 * this.atk);
                 ObjectPool.Instance.PushObject(gameObject);
                 break;
+            case "Block":
+                ObjectPool.Instance.PushObject(gameObject);
+                break;
         }
     }
 }

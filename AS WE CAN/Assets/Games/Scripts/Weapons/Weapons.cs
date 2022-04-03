@@ -9,6 +9,7 @@ public class Weapons : MonoBehaviour
     protected Vector2 direction;
     private float fire_time = 0.0f;
     public float fire_interval;
+    public float fire_current = 0.5f;
     #endregion
 
     #region 子弹属性
@@ -75,9 +76,9 @@ public class Weapons : MonoBehaviour
         //检测位置，给予子弹方向
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 100, 1 << LayerMask.NameToLayer("Wall")))
         {
-            //Debug.Log(hit.point);
+            //Debug.Log(hit.collider.gameObject.layer);
             Vector3 dir = (hit.point - transform.position).normalized;
             dir = new Vector3(dir.x, 0, dir.z);
             bullet.GetComponent<Bullets>().ShootBullet(dir, bulletSpeed, atk);

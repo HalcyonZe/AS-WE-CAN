@@ -8,7 +8,7 @@ public class VolumeGet : MonoBehaviour
     string device;
     public float volume;
 
-    private float interval_volume = 10.0f;
+    private float interval_volume = 5.0f;
     private float time_volume = 0;
 
     // Start is called before the first frame update
@@ -33,7 +33,11 @@ public class VolumeGet : MonoBehaviour
             SetGunInterval();
             time_volume -= Time.deltaTime;
             if (time_volume <= 0)
-            { time_volume = 0; }
+            { 
+                time_volume = 0;
+                Weapons m_weapon = GameObject.FindGameObjectWithTag("Weapons").GetComponent<Weapons>();
+                m_weapon.fire_interval = m_weapon.fire_current;
+            }
             
         }
     }

@@ -14,6 +14,7 @@ public class DeathState : BaseState
     {
         Debug.Log("ÄãËÀÁË");
         para.m_animator.SetTrigger("Die");
+        para.m_rigidbody.velocity = Vector3.zero;
     }
 
 }

@@ -5,14 +5,6 @@ using UnityEngine;
 public class MovementState : BaseState
 {
     
-   
-    
-    
-    //
-    void Update()
-    {
-
-    }
     public MovementState(PlayerSFM sfm)
     {
         ctrl = sfm;
