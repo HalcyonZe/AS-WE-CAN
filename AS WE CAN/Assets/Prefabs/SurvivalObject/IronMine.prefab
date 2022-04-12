@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6278084667362767282}
   m_Layer: 0
   m_Name: IronMine
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iron: {fileID: 7172345601351874382, guid: 10365d9333c1130439995bacee4ea965, type: 3}
   ironPos: {fileID: 6278084668344874710}
+  HP: 10
 --- !u!1 &6278084668344874710
 GameObject:
   m_ObjectHideFlags: 0

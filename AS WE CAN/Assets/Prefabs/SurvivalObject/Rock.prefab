@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 2576868308144994366}
   m_Layer: 0
   m_Name: Rock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stone: {fileID: 5325078210413637227, guid: f107a96cb8935a94fb05f6da90c3bdc2, type: 3}
   stonePos: {fileID: 2576868308118968514}
+  HP: 10
 --- !u!65 &2576868308144994367
 BoxCollider:
   m_ObjectHideFlags: 0

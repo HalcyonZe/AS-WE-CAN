@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     public int takeStoneNum = 0;
 
 
-    private float zTimer = 0;
+    public float zTimer = 20;
     public  float zInterval = 20;
 
     public bool isAddPlantRusultBananaNum = false;
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
      
 
         //当前生命值饱食度水分的增益与减少的限制
-        Life_Food_Water_Limit();
+        Life_Food_Water_TakeFoodNum_Limit();
 
         //放置用于生产的友军
         PlaceFriend();
@@ -119,7 +119,7 @@ public class Player : MonoBehaviour
         {
             zShowTimer += Time.deltaTime;
         }
-        if(zShowTimer>=5)
+        if(zShowTimer>=7)
         {
             Z_Billy.SetActive(false);
             zShowTimer = 0;
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    void Life_Food_Water_Limit()
+    void Life_Food_Water_TakeFoodNum_Limit()
     {
         if (playerSFM.parameter.playerLife >= playerSFM.parameter.MaxLife)
         {
@@ -211,6 +211,10 @@ public class Player : MonoBehaviour
         if(water>maxWater)
         {
             water = maxWater;
+        }
+        if(takeFoodNum<0)
+        {
+            takeFoodNum = 0;
         }
     }
     void survival()

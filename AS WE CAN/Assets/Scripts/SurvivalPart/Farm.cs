@@ -68,7 +68,7 @@ public class Farm : MonoBehaviour
                 }
 
                 //½½Ë®
-                if (player.Watering()||isFriendIn)
+                if (isFriendIn||player.Watering())
                 {
                     
 

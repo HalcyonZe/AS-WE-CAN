@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 955782120453567187}
   m_Layer: 0
   m_Name: Tree
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,6 +308,7 @@ MonoBehaviour:
   wood: {fileID: 7409165503302425962, guid: eb6a25c0ca320964babf755b88151a70, type: 3}
   woodPos: {fileID: 1083392645}
   farm: {fileID: 1671949996}
+  HP: 10
 --- !u!95 &955782120453567187
 Animator:
   serializedVersion: 3
@@ -423,7 +424,7 @@ GameObject:
   - component: {fileID: 2985928433584675378}
   m_Layer: 0
   m_Name: Farmland
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -639,6 +640,7 @@ MonoBehaviour:
   wood: {fileID: 7409165503302425962, guid: eb6a25c0ca320964babf755b88151a70, type: 3}
   woodPos: {fileID: 6847248145397484118}
   farm: {fileID: 1671949996}
+  HP: 6
 --- !u!65 &722829392
 BoxCollider:
   m_ObjectHideFlags: 0
