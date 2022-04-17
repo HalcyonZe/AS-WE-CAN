@@ -50,6 +50,7 @@ public class MovementState : BaseState
         //¿ØÖÆÓïÒôÊäÈë
         SpeechStateSwitch();
 
+        BeHurtTime();
     }
 
     public override void OnExit()
@@ -72,6 +73,19 @@ public class MovementState : BaseState
             para.resetZtimer = true;
             para.Z_Start = true;
             //
+        }
+    }
+
+    private void BeHurtTime()
+    {
+        if (para.hurt_time > 0)
+        {
+            para.m_animator.SetBool("BeHurt", true);
+            para.hurt_time -= Time.deltaTime;
+        }
+        else
+        {
+            para.m_animator.SetBool("BeHurt", false);
         }
     }
 

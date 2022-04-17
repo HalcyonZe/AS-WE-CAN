@@ -10,6 +10,7 @@ public class BulletPlayer : Bullets
         {
             case "Enemy":
                 other.GetComponent<Enemys>().HpChange(-1 * this.atk);
+                other.GetComponent<Enemys>().EnemyToHurt(this.Bulletdir);
                 ObjectPool.Instance.PushObject(gameObject);
                 break;
             case "Block":

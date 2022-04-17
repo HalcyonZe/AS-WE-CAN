@@ -7,6 +7,7 @@ public class Bullets : MonoBehaviour
 
     protected int atk;
     protected Rigidbody rigidbody;
+    protected Vector3 Bulletdir;
 
     void Awake()
     {
@@ -16,6 +17,7 @@ public class Bullets : MonoBehaviour
     //×Óµ¯³õÊ¼»¯
     public void ShootBullet(Vector3 dir, float speed, int atk)
     {
+        this.Bulletdir = dir;
         this.rigidbody.velocity = dir * speed;
         this.atk = atk;
     }

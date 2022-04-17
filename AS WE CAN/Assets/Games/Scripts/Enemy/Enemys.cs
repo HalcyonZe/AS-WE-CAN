@@ -6,7 +6,7 @@ public class Enemys : MonoBehaviour
 {
     enum EnemyState
     {
-        idle, movement, death
+        idle, movement, death, hurt
     }
 
     #region  Ù–‘
@@ -58,6 +58,10 @@ public class Enemys : MonoBehaviour
             case EnemyState.death:
                 EnemyDied();
                 break;
+            /*case EnemyState.hurt:
+                //EnemyHurt();
+                StartCoroutine("EnemyHurt");
+                break;*/
         }
         
     }
@@ -112,6 +116,14 @@ public class Enemys : MonoBehaviour
 
     }
 
+    IEnumerator EnemyHurt()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_rigidbody.velocity = Vector3.zero;
+        m_animator.SetBool("BeHurt", false);
+        curState = EnemyState.movement;
+    }
+
     protected virtual void Attack()
     {
 
@@ -132,6 +144,16 @@ public class Enemys : MonoBehaviour
     {
         m_rigidbody.velocity = Vector3.zero;
         m_animator.SetBool("IsDead", true);
+    }
+
+    public void EnemyToHurt(Vector3 dir)
+    {
+        Debug.Log("Hurt");
+        m_animator.SetBool("BeHurt", true);
+        curState = EnemyState.hurt;
+        m_rigidbody.velocity = dir.normalized * 2.0f;
+        
+        StartCoroutine("EnemyHurt");
     }
 
 }

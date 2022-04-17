@@ -34,7 +34,11 @@ public class StateParameter
     public bool speech_Can = false;
     //改变射击频率bool
     public bool volume_Can = false;
-    
+
+    //受伤时间
+    public bool BeHurt = false;
+    public float hurt_time = -1.0f;
+
     //
 }
 
@@ -92,6 +96,11 @@ public class PlayerSFM : Singleton<PlayerSFM>
         if(parameter.playerLife<=0)
         {
             SwitchState(PlayerState.Death);
+        }
+        else
+        {
+            parameter.BeHurt = true;
+            parameter.hurt_time = 0.2f;
         }
     }
 
