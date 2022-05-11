@@ -40,7 +40,7 @@ public class MovementState : BaseState
         {
             para.m_animator.SetBool("IsRolling", true);
         }
-        else
+        else if(!para.beInvincible)
         {
             para.m_animator.SetBool("IsRolling", false);
         }
@@ -100,6 +100,7 @@ public class MovementState : BaseState
         else
         {
             para.beInvincible = false;
+            para.m_animator.SetBool("IsRolling", false);
         }
     }
 

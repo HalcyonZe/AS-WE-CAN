@@ -15,7 +15,8 @@ public class SpeechController : Singleton<SpeechController>
         {
             Debug.Log("ƒ„Œﬁµ–¡À");
             PlayerSFM.Instance.parameter.beInvincible = true;
-            PlayerSFM.Instance.parameter.invincible_time = 3.0f;
+            PlayerSFM.Instance.parameter.invincible_time = 6.0f;
+            PlayerSFM.Instance.parameter.m_animator.SetBool("IsRolling", true);
         }
         /*for(int i=0;i<recognize.Length;i++)
         {
