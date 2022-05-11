@@ -51,6 +51,8 @@ public class MovementState : BaseState
         SpeechStateSwitch();
 
         BeHurtTime();
+
+        InvincibleTime();
     }
 
     public override void OnExit()
@@ -86,6 +88,18 @@ public class MovementState : BaseState
         else
         {
             para.m_animator.SetBool("BeHurt", false);
+        }
+    }
+
+    private void InvincibleTime()
+    {
+        if (para.invincible_time > 0)
+        {
+            para.invincible_time -= Time.deltaTime;
+        }
+        else
+        {
+            para.beInvincible = false;
         }
     }
 

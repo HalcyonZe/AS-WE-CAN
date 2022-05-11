@@ -26,8 +26,8 @@ public class StateParameter
     #endregion
 
     //
-    public bool canZ=false;
-    public bool resetZtimer=false;
+    public bool canZ = false;
+    public bool resetZtimer = false;
     public bool Z_Start = false;
 
     //语音输入bool
@@ -39,7 +39,9 @@ public class StateParameter
     public bool BeHurt = false;
     public float hurt_time = -1.0f;
 
-    //
+    //无敌
+    public bool beInvincible = false;
+    public float invincible_time = 3.0f;
 }
 
 public class PlayerSFM : Singleton<PlayerSFM>
@@ -91,16 +93,23 @@ public class PlayerSFM : Singleton<PlayerSFM>
 
     public void LifeChange(int value)
     {
-        parameter.playerLife += value;
-        Debug.Log("玩家血量"+ parameter.playerLife);
-        if(parameter.playerLife<=0)
+        if (!parameter.beInvincible)
         {
-            SwitchState(PlayerState.Death);
+            parameter.playerLife += value;
+            Debug.Log("玩家血量" + parameter.playerLife);
+            if (parameter.playerLife <= 0)
+            {
+                SwitchState(PlayerState.Death);
+            }
+            else
+            {
+                parameter.BeHurt = true;
+                parameter.hurt_time = 0.2f;
+            }
         }
         else
         {
-            parameter.BeHurt = true;
-            parameter.hurt_time = 0.2f;
+            Debug.Log("无敌，不扣血");
         }
     }
 
